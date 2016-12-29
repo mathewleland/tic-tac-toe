@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Tic Tac Toe Game</title>
+
+  <!-- Mobile support -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Material Design fonts -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+  <!-- Bootstrap -->
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <!--Font Awesome (not needed for this app)-->
+  <!-- <script src="https://use.fontawesome.com/f9ff2609a9.js"></script> -->
+
+  <!-- Bootstrap Material Design -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/css/bootstrap-material-design.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/css/ripples.css" />
+
+
+  <style>
+    .container {
+      width: 700px;
+      margin: 60px auto;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 2px;
+      display: inline-block;
+      height: 200px;
+      margin: 1rem;
+      position: relative;
+      width: 200px;
+      box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+      transition: all 1s cubic-bezier(.55,.8,.25,1);
+      font-size: 800%;
+      text-align: center;
+      font-family: Roboto;
+      padding-top: 15px;
+      color: #009688;
+      font-weight: bold;
+    }
+
+    /*take away shadows on hover +++ maybe stays down after assigned?*/
+    .card:hover {
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    }
+
+    #newGame {
+      margin-bottom: 10px;
+    }
+
+    #pickSide {
+      margin: 20px auto;
+    }
+
+    .modal {
+      position:fixed;
+    }
+
+    #pickX, #pickO {
+      font-size: 40px;
+      color: #009688;
+    }
+
+    footer {
+      margin-top: 30px;
+      width: 90%;
+    }
+
+    @media only screen and (max-width: 700px) {
+      .container {
+          width: 375px;
+          margin: 10px auto;
+          text-align: center;
+      }
+      #newGame {
+        text-align: left;
+      }
+
+      .card {
+        height: 100px;
+        width: 100px;
+        margin: 5px 5px;
+        font-size: 66px;
+        padding-top: 5px;
+      }
+
+      .row {
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      footer {
+        max-width: 90%;
+      }
+
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class='container'>
+
+  <div class="row text-center" id='newGame'>
+      <a href="#" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#largeModal" id="newGame">New game</a>
+  </div>
+
+  <div class='row' id='topRow'>
+    <div class='col-xs-4 card' id="0,0"></div>
+    <div class='col-xs-4 card' id="0,1"></div>
+    <div class='col-xs-4 card' id="0,2"></div>
+  </div>
+  <div class='row' id='midRow'>
+    <div class='col-xs-4 card' id="1,0"></div>
+    <div class='col-xs-4 card' id="1,1"></div>
+    <div class='col-xs-4 card' id="1,2"></div>
+  </div>
+  <div class='row' id='bottomRow'>
+    <div class='col-xs-4 card' id="2,0"></div>
+    <div class='col-xs-4 card' id="2,1"></div>
+    <div class='col-xs-4 card' id="2,2"></div>
+  </div>
+
+
+  <footer class="well">
+    <small>
+      Made as a project for <a href="https://freecodecamp.com/mathewleland">Free Code Camp.</a>.
+    </small>
+    <small>
+      See a full list of projects by <a href="https://github.com/mathewleland">Mathew Leland</a>
+    </small>
+
+  </footer>
+</div><!-- container -->
+
+<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title text-center" id="endGameHeadline">X's or O's?</h2>
+      </div>
+      <div class="modal-body text-center">
+
+        <h4>X goes first</h4>
+        <div id="pickX" data-dismiss="modal" class="btn btn-lg btn-success markSelection"> X </div>
+        <div id="pickO" data-dismiss="modal" class="btn btn-lg btn-success markSelection"> O </div>
+        <hr />
+        <div class="togglebutton">
+              <h4>Choose difficulty</h4>
+              <label>
+                Normal / Hard <br  />
+                <input type="checkbox" checked="true" name="difficulty" style='margin-left:25px;' id ="difficulty">
+              </label>
+        </div>
+
+        <table class='table table-hover table-striped'>
+          <tr>
+            <td>
+              Your Victories:
+            </td>
+            <td>
+              Draws:
+            </td>
+            <td>
+              Computer Victories:
+            </td>
+          </tr>
+          <tr>
+            <td id="playerWins">
+
+            </td>
+            <td id="draws">
+
+            </td>
+            <td id='computerWins'>
+
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <!-- JQuery  -->
+  <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
+
+  <!-- Page specific JS and Material Design CDN links -->
+  <script src="js/tictactoe.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/js/material.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/js/ripples.js"></script>
+  <script> $(function() { $.material.init(); }); </script>
+
+</body>
+</html>
