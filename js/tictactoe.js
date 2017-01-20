@@ -1,4 +1,4 @@
-var playerMark,
+let playerMark,
   computerMark,
   difficulty = false,
   board = [
@@ -19,18 +19,16 @@ var playerMark,
 ///////select X or O on new game
 document.getElementById('newGame').addEventListener('click', clearBoard);
 
-document.getElementById("pickX").addEventListener('click', function() {
+document.getElementById("pickX").addEventListener('click', () => {
   clearBoard();
-  // gameOver = false;
   playerMark = "X";
   computerMark = "O";
   markSelected = true;
   difficulty = document.getElementById('difficulty').checked;
 });
 
-document.getElementById("pickO").addEventListener('click', function() {
+document.getElementById("pickO").addEventListener('click', () => {
   clearBoard();
-  // gameOver = false;
   playerMark = "O";
   computerMark = "X";
   markSelected = true;
@@ -44,9 +42,9 @@ document.getElementById("pickO").addEventListener('click', function() {
 ///update the baord after every move
 function updateBoard(board) {
   fullBoard = true;
-  for (var row = 0; row < 3; row++) {
-    for (var col = 0; col < 3; col++) {
-      var position = [row, col].toString();
+  for (let row = 0; row < 3; row++) {
+    for (let col = 0; col < 3; col++) {
+      let position = [row, col].toString();
       if (board[row][col] == 0) {
         fullBoard = false;
         document.getElementById(position).innerHTML = '';
@@ -80,10 +78,10 @@ function updateScore(winner) {
 }
 
 ///each square can be clicked and adds playerMark to it
-var squares = document.getElementsByClassName('card');
+const squares = document.getElementsByClassName('card');
 
-for (var i = 0; i < squares.length; i++) {
-  squares[i].addEventListener('click', function() {
+for (let i = 0; i < squares.length; i++) {
+  squares[i].addEventListener('click', function() { //cannot use arrow function with 'this' inside
     if (this.innerHTML === '' && !gameOver && playerMark != undefined) {
       pos = this.id.split(',');
       x = Number(pos[0]);
@@ -94,7 +92,6 @@ for (var i = 0; i < squares.length; i++) {
     }
     checkWinners(playerMark);
     if (fullBoard && !gameOver) {
-      console.log("cats game");
       updateScore("draw");
       gameOver = true;
 
@@ -107,9 +104,9 @@ for (var i = 0; i < squares.length; i++) {
 ///check the rows and columns and diagonals to see if there is a winner
 function checkRows(mark) {
 
-  for (var row = 0; row < board.length; row++) {
-    var winner = true;
-    for (var i = 0; i < 3; i++) {
+  for (let row = 0; row < board.length; row++) {
+    let winner = true;
+    for (let i = 0; i < 3; i++) {
       if (board[row][i] != mark) {
         //take each of these squares and highlight them on a win!
         winner = false;
@@ -125,9 +122,9 @@ function checkRows(mark) {
 }
 
 function checkColumns(mark) {
-  for (var col = 0; col < board.length; col++) {
-    var winner = true;
-    for (var i = 0; i < 3; i++) {
+  for (let col = 0; col < board.length; col++) {
+    let winner = true;
+    for (let i = 0; i < 3; i++) {
       if (board[i][col] != mark) {
         //highlight column
         winner = false;
@@ -145,8 +142,6 @@ function checkColumns(mark) {
 function checkDiagonals(mark) {
   if (board[1][1] != mark) return;
   if ((board[0][0] == mark && board[2][2] == mark) || (board[0][2] == mark && board[2][0] == mark)) {
-    //highlight three
-    console.log(mark + " wins diagnally!");
     updateScore(mark);
     gameOver = true;
   }
@@ -161,18 +156,18 @@ function checkWinners(mark) {
 
 //logic for each computer move
 function computerMove() {
-  //var compPos; first assign it a win if possible, then a block, then a corner, then a random move
+  //let compPos; first assign it a win if possible, then a block, then a corner, then a random move
   if (gameOver || computerMark == undefined) return;
-  var compPos = undefined;
+  let compPos = undefined;
 
   if (difficulty) {
-    var specialCase1 = [[playerMark, 0, 0],
+    const specialCase1 = [[playerMark, 0, 0],
               [0, computerMark, 0],
               [0, 0, playerMark]];
-    var specialCase2 = [[0, 0, playerMark],
+    const specialCase2 = [[0, 0, playerMark],
               [0, computerMark, 0],
               [playerMark, 0, 0]];
-    var specialCase3 = [
+    const specialCase3 = [
       [0,0,0],
       [0,computerMark, playerMark],
       [0,playerMark, 0]
@@ -233,22 +228,22 @@ function computerMove() {
 }
 
 function checkThree(mark) {
-  var block2 = [mark, mark, 0];
-  var block1 = [mark, 0, mark];
-  var block0 = [0, mark, mark];
+  const block2 = [mark, mark, 0];
+  const block1 = [mark, 0, mark];
+  const block0 = [0, mark, mark];
 
-  var columns = transposeBoard(board);
-  var diag1 = [board[0][0], board[1][1], board[2][2]]; //add diagonals  topleft, middle, bottomright
-  var diag2 = [board[2][0], board[1][1], board[0][2]]; // bottomleft, middle, topright
+  let columns = transposeBoard(board);
+  const diag1 = [board[0][0], board[1][1], board[2][2]]; //add diagonals  topleft, middle, bottomright
+  const diag2 = [board[2][0], board[1][1], board[0][2]]; // bottomleft, middle, topright
 
   //check rows
-  for (var row=0; row < board.length; row++) {
+  for (let row=0; row < board.length; row++) {
     if ((board[row]).equals(block2)) return [row, 2];
     if ((board[row]).equals(block1)) return [row,1];
     if ((board[row]).equals(block0)) return [row,0];
   }
   //check columns
-  for (var col=0; col < board.length; col++) {
+  for (let col=0; col < board.length; col++) {
     if ((columns[col]).equals(block2)) return [2, col];
     if ((columns[col]).equals(block1)) return [1, col];
     if ((columns[col]).equals(block0)) return [0, col];
@@ -285,7 +280,7 @@ Array.prototype.equals = function (array) {
     if (this.length != array.length)
         return false;
 
-    for (var i = 0, l=this.length; i < l; i++) {
+    for (let i = 0, l=this.length; i < l; i++) {
         // Check if we have nested arrays
         if (this[i] instanceof Array && array[i] instanceof Array) {
             // recurse into the nested arrays
@@ -307,28 +302,3 @@ function transposeBoard(board) {
     })
   });
 }
-
-
-// function depressCard(id) { //wanted the cards to stay down after you selected them, but they wouldn't come back up on new games even when resetting the box shadow value
-//   //removes hover effect on subsequent games.. could not resolve so it was taken away from functions
-//   document.getElementById(id).style.boxShadow='0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)';
-// }
-// 0,0 2,1 2,0 1,0 is still a winner
-
-// attempt at making event listeners for X and O Dry; clearBoard() stopped working and couldn't figure out why
-// document.getElementById('pickX').addEventListener('click', startGame('X'));
-// document.getElementById('pickO').addEventListener('click', startGame('O'));
-// function startGame(mark) {
-//   clearBoard();
-//   gameOver = false;
-//   playerMark = mark;
-//   if (playerMark == "X") {
-//     computerMark = "O";
-//   }
-//   else {
-//     computerMark = "X";
-//   }
-//   markSelected = true;
-//   difficulty = document.getElementById('difficulty').checked;
-//   if (computerMark == "X" && !gameOver) computerMove();
-// }
