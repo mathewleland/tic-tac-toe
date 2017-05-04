@@ -17,9 +17,9 @@ let playerMark,
   draws = 0;
 
 ///////select X or O on new game
-document.getElementById('newGame').addEventListener('touchstart', clearBoard);
+document.getElementById('newGame').addEventListener('click', clearBoard);
 
-document.getElementById("pickX").addEventListener('touchstart', () => {
+document.getElementById("pickX").addEventListener('click', () => {
   clearBoard();
   playerMark = "X";
   computerMark = "O";
@@ -27,7 +27,7 @@ document.getElementById("pickX").addEventListener('touchstart', () => {
   difficulty = document.getElementById('difficulty').checked;
 });
 
-document.getElementById("pickO").addEventListener('touchstart', () => {
+document.getElementById("pickO").addEventListener('click', () => {
   clearBoard();
   playerMark = "O";
   computerMark = "X";
@@ -77,11 +77,11 @@ function updateScore(winner) {
   $('#largeModal').modal();
 }
 
-///each square can be touchstarted and adds playerMark to it
+///each square can be clicked and adds playerMark to it
 const squares = document.getElementsByClassName('card');
 
 for (let i = 0; i < squares.length; i++) {
-  squares[i].addEventListener('touchstart', function() { //cannot use arrow function with 'this' inside
+  squares[i].addEventListener('click', function() { //cannot use arrow function with 'this' inside
     if (this.innerHTML === '' && !gameOver && playerMark != undefined) {
       pos = this.id.split(',');
       x = Number(pos[0]);
