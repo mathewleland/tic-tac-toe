@@ -90,6 +90,7 @@ for (let i = 0; i < squares.length; i++) {
       // depressCard(this.id);
       updateBoard(board);
     }
+    else if (this.innerHTML) return;
     checkWinners(playerMark);
     if (fullBoard && !gameOver) {
       updateScore("draw");
